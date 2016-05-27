@@ -50,37 +50,20 @@
 
 %Настройки всех видов списков(enumirate и itemize)
 \usepackage{enumerate}
+\usepackage{enumitem}
 \RequirePackage{calc} %Для складывания чисел
 %Нумерация числовых строк по ГОСТ
 \renewcommand{\labelenumi}{\arabic{enumi})} %( 1),2),3))
 \renewcommand{\labelenumii}{\alph{enumii})} %( a),b),c))
 %Интервал между строками как в обычном тексте
-\makeatletter
-\renewcommand{\@listI}{%
-\topsep=0pt 
-%Многострочный текст не ровнялся по символу нумирации
-\leftmargin=0pt
-}
-\makeatother
 %Интервал в itemize
-\makeatletter
-\let\old@itemize=\itemize
-\def\itemize{\old@itemize
-\setlength\itemsep{0pt}
-\setlength{\parskip}{0pt}
-\setlength{\leftskip}{0pt}
-\setlength{\itemindent}{1.75cm}
-}
-\makeatother
+\setlist[itemize,1]{leftmargin=0pt,itemindent=(\parindent+0.5\labelwidth),topsep=0pt,itemsep=0pt,parsep=0pt,partopsep=0pt}
+\setlist[itemize,2]{leftmargin=\parindent,itemindent=(\parindent+0.5\labelwidth),topsep=0pt,itemsep=0pt,parsep=0pt,partopsep=0pt}
+\setlist[itemize,3]{leftmargin=\parindent,itemindent=(\parindent+0.5\labelwidth),topsep=0pt,itemsep=0pt,parsep=0pt,partopsep=0pt}
 %Интервал в enumirate
-\makeatletter
-\let\old@enumerate=\enumerate
-\def\enumerate{\old@enumerate
-\setlength{\itemsep}{0pt}
-\setlength{\parskip}{0pt}
-\setlength{\leftskip}{0pt}
-\setlength{\itemindent}{1.85cm}
-}\makeatother
+\setlist[enumerate,1]{leftmargin=0pt,itemindent=(\parindent+0.66\labelwidth),topsep=0pt,itemsep=0pt,parsep=0pt,partopsep=0pt}
+\setlist[enumerate,2]{leftmargin=\parindent,itemindent=(\parindent+0.66\labelwidth),topsep=0pt,itemsep=0pt,parsep=0pt,partopsep=0pt}
+\setlist[enumerate,3]{leftmargin=\parindent,itemindent=(\parindent+0.66\labelwidth),topsep=0pt,itemsep=0pt,parsep=0pt,partopsep=0pt}
 
 
 %Главы
@@ -89,16 +72,16 @@
 % Формат записи: \titlespacing*{command}{left}{beforesep}{aftersep}[right]
 %Настройка главы
 \titleformat{\chapter}[block]{\raggedright\normalsize\bfseries\center}{ \thechapter\space}{0.5em}{}
-\titlespacing*{\chapter}{0 pt}{-5 mm}{0 pt}
+\titlespacing*{\chapter}{0 pt}{0 mm}{0 pt}
 %Настройка секции
 \titleformat{\section} {\raggedright\normalsize\bfseries}{\thesection}{1em}{}
-\titlespacing*{\section}{\parindent}{0 pt}{0 pt}
+\titlespacing*{\section}{\parindent}{12 pt}{0 pt}
 %Настройка подсекции
 \titleformat{\subsection} {\raggedright\normalsize\bfseries}{\thesubsection}{1em}{}
-\titlespacing*{\subsection}{\parindent}{0 pt}{0 pt}
+\titlespacing*{\subsection}{\parindent}{12 pt}{0 pt}
 %Настройка под под секции
 \titleformat{\subsubsection} {\raggedright\normalsize\bfseries}{\thesubsubsection}{1em}{}
-\titlespacing*{\subsubsection}{\parindent}{0 pt}{0 pt}
+\titlespacing*{\subsubsection}{\parindent}{12 pt}{0 pt}
 %Новая глава не на новой странице
 \makeatletter 
 %\renewcommand\chapter{\par%
@@ -131,7 +114,16 @@
 \makeatletter
 \renewcommand\@biblabel[1]{#1.} %В списке литературы, вместо [1] будет 1.
 \makeatother
-
+%Сокращение расстояние между элементами в списке
+\let\oldthebibliography=\thebibliography
+\let\endoldthebibliography=\endthebibliography
+\renewenvironment{thebibliography}[1]{% 
+\begin{oldthebibliography}{#1}% \setlength{\parskip}{0ex}% 
+\setlength{\itemsep}{0ex}%
+}%
+{% 
+\end{oldthebibliography}% 
+}
 
 %Пенальти
 %\clubpenalty=9999 %Чтобы списки не были разбиты между страницами
