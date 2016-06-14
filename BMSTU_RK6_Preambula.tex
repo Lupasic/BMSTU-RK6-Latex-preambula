@@ -5,9 +5,8 @@
 \usepackage{url} %УРЛ Адреса
 \usepackage{cite} %цитирование
 \usepackage{pstricks,pst-plot,pb-diagram} % оформление листингов программ
-\usepackage{fancyhdr} % Колонтинулы (ничего не менял)
-
-
+    
+    
 %Русские шрифты с Times New Roman
 \usepackage{pscyr} %Пакет который надо установить, для times New Roman
 \renewcommand{\rmdefault}{ftm} %Times New Roman
@@ -23,7 +22,7 @@
 %настройка размера полосы набора
 \usepackage{vmargin}
 \setpapersize{A4}
-\setmarginsrb{3cm}{2cm}{1cm}{2cm}{0pt}{0mm}{0pt}{13mm} % {левое поле}{верхнее поле}{правое поле}{нижнее поле}{колонтитулы}{колонтитулы}{колонтитулы}{номер страницы}
+\setmarginsrb{3cm}{1.3cm}{1cm}{2cm}{0pt}{0mm}{0pt}{13mm} % {левое поле}{верхнее поле}{правое поле}{нижнее поле}{колонтитулы}{колонтитулы}{колонтитулы}{номер страницы}
 
 
 %Межстрочный интервал и абзацный отступ
@@ -56,12 +55,14 @@
 \usepackage{enumerate}
 \usepackage{enumitem}
 \RequirePackage{calc} %Для складывания чисел
+%Итемайз с тире
+\renewcommand{\labelitemi}{~---}
 %Нумерация числовых строк по ГОСТ
 \renewcommand{\labelenumi}{\arabic{enumi})} %( 1),2),3))
 \renewcommand{\labelenumii}{\alph{enumii})} %( a),b),c))
 %Интервал между строками как в обычном тексте
 %Интервал в itemize
-\setlist[itemize,1]{leftmargin=0pt,itemindent=(\parindent+0.5\labelwidth),topsep=0pt,itemsep=0pt,parsep=0pt,partopsep=0pt}
+\setlist[itemize,1]{leftmargin=0pt,itemindent=(\parindent+0.66\labelwidth),topsep=0pt,itemsep=0pt,parsep=0pt,partopsep=0pt}
 \setlist[itemize,2]{leftmargin=\parindent,itemindent=(\parindent+0.5\labelwidth),topsep=0pt,itemsep=0pt,parsep=0pt,partopsep=0pt}
 \setlist[itemize,3]{leftmargin=\parindent,itemindent=(\parindent+0.5\labelwidth),topsep=0pt,itemsep=0pt,parsep=0pt,partopsep=0pt}
 %Интервал в enumirate
@@ -72,11 +73,12 @@
 
 %Главы
 \usepackage{titlesec}
+% Настройка вертикальных и горизонтальных отступов
 % Формат записи: \titleformat{command}[shape]{format}{label}{sep}{before}[after]
 % Формат записи: \titlespacing*{command}{left}{beforesep}{aftersep}[right]
 %Настройка главы
 \titleformat{\chapter}[block]{\raggedright\normalsize\bfseries\center}{ \thechapter\space}{0.5em}{}
-\titlespacing*{\chapter}{0 pt}{0 mm}{0 pt}
+\titlespacing*{\chapter}{0pt}{-30pt}{8pt}
 %Настройка секции
 \titleformat{\section} {\raggedright\normalsize\bfseries}{\thesection}{1em}{}
 \titlespacing*{\section}{\parindent}{12 pt}{0 pt}
@@ -86,12 +88,22 @@
 %Настройка под под секции
 \titleformat{\subsubsection} {\raggedright\normalsize\bfseries}{\thesubsubsection}{1em}{}
 \titlespacing*{\subsubsection}{\parindent}{12 pt}{0 pt}
-%Новая глава не на новой странице
-\makeatletter 
-%\renewcommand\chapter{\par%
-%\thispagestyle{plain}
-%\@afterindentfalse \secdef\@chapter\@schapter} 
-\makeatother
+
+
+%Делаем нумерацию страниц справа сверху
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\fancyheadoffset{0mm}
+\fancyfootoffset{0mm}
+\setlength{\headheight}{17pt}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+%Переопределение первых страниц глав
+\fancypagestyle{plain}{ 
+    \fancyhf{}
+    \rhead{\thepage}}
 
 
 %Оглавление
@@ -102,7 +114,7 @@
 \renewcommand{\cftdotsep}{1} % Расстояние между точками
 \renewcommand{\cftchapdotsep}{\cftdotsep} % Точки от глав до номеров страниц
 \renewcommand{\cftbeforetoctitleskip}{-21 pt} % Убираем лишние 1.5 интервала перед содержанием
-\renewcommand{\cfttoctitlefont}{\hfil\large\bfseries\MakeUppercase} %% В доках написано, что
+\renewcommand{\cfttoctitlefont}{\hfil\large\bfseries\MakeUppercase\hfil} %% В доках написано, что
 \renewcommand{\cftaftertoctitle}{\hfil} %% это поставит содержание по середине:)
 \renewcommand\cftaftertoctitleskip{0 mm} %Оступ от "СОДЕРЖАНИЕ" на 2 интервала + 0мм
 \renewcommand\cftchapfont{} %Главы в содержании не жирным шрифтом
@@ -129,14 +141,11 @@
 \end{oldthebibliography}% 
 }
 
-%Пенальти
-%\clubpenalty=9999 %Чтобы списки не были разбиты между страницами
-
 
 %Мои команды
 \newcommand\term[1]{\textit{#1}} %Термины курсивом нужные
 \newcommand\node[1]{\url{#1}} %Неплохой шрифт для того, что выделить надо + не надо экранировать
-\newcommand\pic[1]{(рисунок \ref{#1})} %Где нужно сослаться на рисунок
+\newcommand\pic[1]{(рисунок~\ref{#1})} %Где нужно сослаться на рисунок
 \newcommand\tab[1]{(таблица \ref{#1})} %Где нужно сослаться на рисунок
 
 
